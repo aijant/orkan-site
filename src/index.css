@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiContainer-root {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  margin-top: 0 !important;
+}
+
+@media (min-width: 1200px) {
+  .MuiContainer-root {
+    max-width: 100% !important;
+  }
+}
+
+@media (min-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}

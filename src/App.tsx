@@ -6,6 +6,7 @@ import { Pricing } from "./pages/Pricing";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Container } from "@mui/material";
+import "./index.css"; 
 
 function App() {
   return (
