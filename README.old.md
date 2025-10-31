@@ -1,2 +1,0 @@
-# orkan-site
-Orkan ELD
