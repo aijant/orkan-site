@@ -1,18 +1,35 @@
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
 
 type ContactForm = {
   name: string;
+  company: string;
+  phone: string;
   email: string;
+  reason: string;
+  fleetSize: string;
   message: string;
 };
 
 const schema = yup.object({
-  name: yup.string().required("Name is required"),
-  email: yup.string().email("Invalid email").required("Email is required"),
-  message: yup.string().required("Message is required"),
+  name: yup.string().required("Your name is required"),
+  company: yup.string().required("Company name is required"),
+  phone: yup.string().required("Phone number is required"),
+  email: yup.string().email("Invalid email").required("Work email is required"),
+  reason: yup.string().required("Select a reason"),
+  fleetSize: yup.string().required("Select your fleet size"),
+  message: yup.string().required("Please describe your needs"),
 });
 
 export const Contact = () => {
@@ -30,48 +47,226 @@ export const Contact = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, mx: "auto", py: 8 }}>
-      <Typography variant="h4" textAlign="center" mb={3} color="primary.main">
-        Contact Us
-      </Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          fullWidth
-          label="Full Name"
-          margin="normal"
-          {...register("name")}
-          error={!!errors.name}
-          helperText={errors.name?.message}
-        />
-        <TextField
-          fullWidth
-          label="Email"
-          type="email"
-          margin="normal"
-          {...register("email")}
-          error={!!errors.email}
-          helperText={errors.email?.message}
-        />
-        <TextField
-          fullWidth
-          label="Message"
-          multiline
-          rows={4}
-          margin="normal"
-          {...register("message")}
-          error={!!errors.message}
-          helperText={errors.message?.message}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Send Message
-        </Button>
-      </form>
+    <Box
+      sx={{
+        backgroundColor: "#2b0000",
+        color: "#fff",
+        py: { xs: 8, md: 10 },
+        px: { xs: 3, md: 20 },
+      }}
+    >
+
+      <Box textAlign="center" mb={6}>
+        <Typography variant="h4" fontWeight={700} gutterBottom>
+          Contact Us
+        </Typography>
+        <Typography sx={{ maxWidth: 600, mx: "auto", color: "#d3d3d3" }}>
+          Let our team assist you in getting a better understanding of how our
+          Orkan ELD can fulfill your needs and requirements.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 30,
+          mb: 8,
+          flexWrap: "wrap",
+          textAlign: "center",
+        }}
+      >
+        <Box>
+          <IconButton
+            sx={{
+              backgroundColor: "#4a0a0a",
+              color: "#fff",
+              mb: 2,
+              "&:hover": { backgroundColor: "#6b0f0f" },
+            }}
+          >
+            <PhoneIcon />
+          </IconButton>
+          <Typography fontWeight={600}>Phone</Typography>
+          <Typography>773-572-5627</Typography>
+        </Box>
+
+        <Box>
+          <IconButton
+            sx={{
+              backgroundColor: "#4a0a0a",
+              color: "#fff",
+              mb: 2,
+              "&:hover": { backgroundColor: "#6b0f0f" },
+            }}
+          >
+            <EmailIcon />
+          </IconButton>
+          <Typography fontWeight={600}>Email</Typography>
+          <Typography>office@orkaneld.com</Typography>
+        </Box>
+      </Box>
+
+      {/* Form */}
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          maxWidth: 1100,
+          mx: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}
+      >
+        <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              fullWidth
+              label="Your Name"
+              {...register("name")}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            />
+          </Box>
+
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              fullWidth
+              label="Company Name"
+              {...register("company")}
+              error={!!errors.company}
+              helperText={errors.company?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            />
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              fullWidth
+              label="Phone number"
+              {...register("phone")}
+              error={!!errors.phone}
+              helperText={errors.phone?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            />
+          </Box>
+
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              fullWidth
+              label="Work email"
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            />
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              select
+              fullWidth
+              label="What is the reason for contacting us?"
+              {...register("reason")}
+              error={!!errors.reason}
+              helperText={errors.reason?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            >
+              <MenuItem value="Request a demo">Request a demo</MenuItem>
+              <MenuItem value="Sales inquiry">Sales inquiry</MenuItem>
+              <MenuItem value="Support">Customer support</MenuItem>
+              <MenuItem value="Support">Contact sales</MenuItem>
+              <MenuItem value="Support">Partnership inquiry</MenuItem>
+              <MenuItem value="Support">General inquiry</MenuItem>
+            </TextField>
+          </Box>
+
+          <Box sx={{ flex: 1, minWidth: "300px" }}>
+            <TextField
+              select
+              fullWidth
+              label="Please select your fleet size"
+              {...register("fleetSize")}
+              error={!!errors.fleetSize}
+              helperText={errors.fleetSize?.message}
+              variant="filled"
+              InputProps={{
+                disableUnderline: true,
+                style: { color: "#fff", backgroundColor: "#3b0000" },
+              }}
+              InputLabelProps={{ style: { color: "#ccc" } }}
+            >
+              <MenuItem value="1-4">1-4</MenuItem>
+              <MenuItem value="5-20">5-19</MenuItem>
+              <MenuItem value="21-50">20-50</MenuItem>
+              <MenuItem value="51+">51-99</MenuItem>
+              <MenuItem value="51+">100+</MenuItem>
+            </TextField>
+          </Box>
+        </Box>
+        <Box sx={{ flex: 1 }}>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            label="Please briefly describe your needs:"
+            {...register("message")}
+            error={!!errors.message}
+            helperText={errors.message?.message}
+            variant="filled"
+            InputProps={{
+              disableUnderline: true,
+              style: { color: "#fff", backgroundColor: "#3b0000" },
+            }}
+            InputLabelProps={{ style: { color: "#ccc" } }}
+          />
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              backgroundColor: "#e53935",
+              "&:hover": { backgroundColor: "#b71c1c" },
+              color: "#fff",
+              px: 5,
+              py: 1.5,
+              borderRadius: "6px",
+            }}
+          >
+            SUBMIT
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };

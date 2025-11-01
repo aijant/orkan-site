@@ -63,7 +63,7 @@ export default function Support() {
 
       <Box
         sx={{
-          backgroundColor: "#f44336",
+          backgroundColor: "#f63838",
           color: "#fff",
           py: { xs: 8, md: 12 },
           px: { xs: 3, md: 6 },
