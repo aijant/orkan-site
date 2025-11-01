@@ -7,9 +7,9 @@ import ClientStories from "./ClientStories";
 import { Pricing } from "./Pricing";
 import Support from "./Support";
 import bgImage from "../assets/truck-bg.jpg";
+import run from "../assets/run.jpg";
 
 export const Home = () => {
-  // Create a ref for the Pricing section
   const pricingRef = useRef<HTMLDivElement>(null);
 
   const scrollToPricing = () => {
@@ -35,7 +35,6 @@ export const Home = () => {
           color: "#fff",
         }}
       >
-        {/* Dark overlay */}
         <Box
           sx={{
             position: "absolute",
@@ -44,8 +43,6 @@ export const Home = () => {
             zIndex: 1,
           }}
         />
-
-        {/* Content */}
         <Box sx={{ zIndex: 2, maxWidth: "900px", px: 2 }}>
           <Typography
             variant="h3"
@@ -89,7 +86,7 @@ export const Home = () => {
                 fontWeight: 600,
                 "&:hover": { backgroundColor: "#b92929" },
               }}
-              onClick={scrollToPricing} // <-- scroll instead of navigate
+              onClick={scrollToPricing}
             >
               GET PRICING
             </Button>
@@ -115,6 +112,101 @@ export const Home = () => {
             </Button>
           </Box>
         </Box>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          my: 4,
+          mt: 12,
+        }}
+      >
+        <Box
+          component="img"
+          src={run}
+          alt="Orkan run"
+          sx={{
+            width: "50%",
+            height: "auto",
+            objectFit: "contain",
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          textAlign: "center",
+          py: { xs: 6, md: 4 },
+          px: 2,
+        }}
+      >
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 700,
+            mb: 2,
+            fontSize: { xs: "2rem", md: "2.8rem" },
+          }}
+        >
+          All-in-one ELD solution
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "center",
+            gap: { xs: 6, md: 12 },
+            mb: 6,
+          }}
+        >
+          <Box>
+            <Box sx={{ fontSize: "60px", color: "#cf2e2e", mb: 2 }}>🗺️</Box>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
+              GPS Devices
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 500, mb: 1 }}>
+              Stay up-to-date with the location of your vehicles
+            </Typography>
+            <Typography sx={{ color: "#555" }}>
+              Real-time updates, Location History, Geofence, and GPS Reports.
+            </Typography>
+          </Box>
+
+          <Box>
+            <Box sx={{ fontSize: "60px", color: "#cf2e2e", mb: 2 }}>💡</Box>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
+              ELD Device
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 500, mb: 1 }}>
+              Stay fully compliant with the ELD mandate
+            </Typography>
+            <Typography sx={{ color: "#555" }}>
+              FMCSA-approved device compatible with any vehicle type.
+            </Typography>
+          </Box>
+        </Box>
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#cf2e2e",
+            color: "#fff",
+            fontSize: "1.1rem",
+            px: 5,
+            py: 1.8,
+            fontWeight: 600,
+            "&:hover": { backgroundColor: "#b92929" },
+          }}
+          onClick={() =>
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            })
+          }
+        >
+          REQUEST A DEMO
+        </Button>
       </Box>
 
       <Solutions />
