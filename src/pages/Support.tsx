@@ -1,76 +1,63 @@
-import {
-  Box,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-const faqs = [
-  {
-    question: "How do I install my ELD device?",
-    answer:
-      "Simply plug the ELD device into your vehicle’s diagnostic port (usually under the steering wheel). Then, pair it with the Xplore mobile app.",
-  },
-  {
-    question: "How do I access my reports?",
-    answer:
-      "Login to the Xplore Dashboard using your account credentials. Go to ‘Reports’ in the sidebar to view or download compliance, fuel, or trip reports.",
-  },
-  {
-    question: "What if my device stops working?",
-    answer:
-      "Check your connection first. If the device still doesn’t respond, contact our support team — we’ll replace it if necessary.",
-  },
-  {
-    question: "Is there a mobile app for drivers?",
-    answer:
-      "Yes. The Xplore Driver App is available for both iOS and Android. It syncs automatically with your ELD device.",
-  },
-];
+import { Box, Typography } from "@mui/material";
+import SupportImg from "../assets/support.jpg";
 
 export default function Support() {
   return (
-    <Box sx={{ py: 8, textAlign: "center" }}>
-      <Typography variant="h4" fontWeight={600} gutterBottom>
-        Support Center
-      </Typography>
-      <Typography sx={{ maxWidth: 600, mx: "auto", mt: 2 }}>
-        Find answers to common questions or contact our team for help.
-      </Typography>
-
-      <Box
-        sx={{
-          mt: 6,
-          maxWidth: 700,
-          mx: "auto",
-          textAlign: "left",
-        }}
-      >
-        {faqs.map((faq, i) => (
-          <Accordion key={i} sx={{ mb: 2 }}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1" fontWeight={600}>
-                {faq.question}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">{faq.answer}</Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </Box>
-
-      <Box sx={{ mt: 6 }}>
-        <Typography variant="h6" gutterBottom>
-          Still have questions?
+    <Box
+      sx={{
+        backgroundColor: "#fafafa",
+        py: { xs: 6, md: 10 },
+        px: { xs: 3, md: 20 },
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: { xs: 4, md: 8 },
+      }}
+    >
+      <Box sx={{ flex: 1 }}>
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          sx={{
+            mb: 3,
+            fontSize: { xs: "2rem", md: "2.5rem" },
+            textAlign: "left",
+          }}
+        >
+          Customer Support
         </Typography>
-        <Button variant="contained" size="large" href="/contact">
-          Contact Support
-        </Button>
+
+        <Typography
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            lineHeight: 1.8,
+            fontSize: "1.1rem",
+            textAlign: "left",
+            maxWidth: 600,
+          }}
+        >
+          You don’t have to navigate Orkan alone! Our customer support team is
+          available 24/7 to assist you with any questions or issues that may
+          arise. Having a reliable team by your side can make a big difference —
+          especially for your drivers. Reach out to us to learn how we can help
+          boost efficiency, increase profitability, and keep your business safe
+          and compliant.
+        </Typography>
       </Box>
+      <Box
+        component="img"
+        src={SupportImg}
+        alt="Customer Support"
+        sx={{
+          flex: 1,
+          width: "100%",
+          maxWidth: 500,
+          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          objectFit: "cover",
+        }}
+      />
     </Box>
   );
 }

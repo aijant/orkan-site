@@ -214,9 +214,9 @@ export const Home = () => {
       <Products />
 
       {/* Add ref to Pricing component wrapper */}
-      <Box ref={pricingRef}>
+      {/* <Box ref={pricingRef}>
         <Pricing />
-      </Box>
+      </Box> */}
       <Support />
       <Contact />
     </>
