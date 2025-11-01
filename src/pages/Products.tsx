@@ -1,61 +1,134 @@
-import { Box, Typography, Card, CardContent, Button } from "@mui/material";
+import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import { useState } from "react";
+import GpsImg from "../assets/gps.jpg";
+import EldImg from "../assets/eld.jpg";
 
 const products = [
   {
-    title: "Xplore ELD Device",
-    desc: "Plug-and-play ELD hardware ensuring FMCSA compliance.",
-    img: "https://via.placeholder.com/300x180?text=ELD+Device",
+    title: "GPS Devices – Feature-packed GPS fleet tracking",
+    desc: "Live and historical GPS tracking, Geofence, and GPS reports",
+    img: GpsImg,
   },
   {
-    title: "Xplore GPS Tracker",
-    desc: "Advanced GPS tracking with real-time location updates.",
-    img: "https://via.placeholder.com/300x180?text=GPS+Tracker",
-  },
-  {
-    title: "Xplore Dashboard",
-    desc: "Powerful fleet management dashboard for web and mobile.",
-    img: "https://via.placeholder.com/300x180?text=Dashboard",
+    title:
+      "ELD Devices – FMSCA-registered device fully compliant with the ELD mandate",
+    desc: "Stay compliant and connected with our certified ELD devices.",
+    img: EldImg,
   },
 ];
 
 export default function Products() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
-    <Box sx={{ py: 8, textAlign: "center" }}>
-      <Typography variant="h4" fontWeight={600} gutterBottom>
-        Our Products
+    <Box
+      sx={{
+        backgroundColor: "#e53935",
+        color: "#fff",
+        textAlign: "center",
+        py: 10,
+        px: 4,
+      }}
+    >
+      <Typography
+        variant="h3"
+        fontWeight={700}
+        sx={{ mb: 2, fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+      >
+        All the necessary features few clicks away
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          maxWidth: 800,
+          mx: "auto",
+          lineHeight: 1.6,
+          fontSize: "1.1rem",
+          mb: 6,
+        }}
+      >
+        Everything you need for the seamless running of your fleet. Our software
+        is easy to set up, and even easier to use! Your managers will be able to
+        focus on improving your business, while your drivers can focus on
+        driving.
       </Typography>
 
       <Box
         sx={{
-          mt: 6,
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
           gap: 4,
         }}
       >
-        {products.map((product, i) => (
-          <Card key={i} sx={{ width: 300, p: 2 }}>
-            <img
-              src={product.img}
-              alt={product.title}
-              style={{
-                width: "100%",
-                height: 180,
+        {products.map((p, i) => (
+          <Card
+            key={i}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            sx={{
+              position: "relative",
+              width: { xs: "100%", sm: "45%", md: "40%" },
+            
+              overflow: "hidden",
+              cursor: "pointer",
+              boxShadow: 5,
+              transition: "transform 0.3s ease",
+              transform: hovered === i ? "scale(1.03)" : "scale(1)",
+            }}
+          >
+            {/* Product Image */}
+            <CardMedia
+              component="img"
+              src={p.img}
+              alt={p.title}
+              sx={{
+                height: 300,
                 objectFit: "cover",
-                borderRadius: 8,
+                transition: "all 0.4s ease",
               }}
             />
-            <CardContent>
-              <Typography variant="h6" fontWeight={600}>
-                {product.title}
+
+            {/* Gradient Overlay */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  hovered === i
+                    ? "linear-gradient(to top, rgba(229,57,53,0.9), rgba(229,57,53,0.4))"
+                    : "transparent",
+                transition: "background 0.4s ease",
+              }}
+            />
+
+            {/* Text */}
+            <CardContent
+              sx={{
+                position: "absolute",
+                bottom: hovered === i ? 40 : 20,
+                left: 30,
+                right: 30,
+                color: "#fff",
+                zIndex: 2,
+                transition: "all 0.3s ease",
+              }}
+            >
+              <Typography variant="h8" fontWeight={700}>
+                {p.title}
               </Typography>
-              <Typography sx={{ mt: 1, minHeight: 50 }}>
-                {product.desc}
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 2 }}>
-                Learn More
-              </Button>
+              {hovered === i && (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mt: 1,
+                    opacity: hovered === i ? 1 : 0,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  {p.desc}
+                </Typography>
+              )}
             </CardContent>
           </Card>
         ))}
