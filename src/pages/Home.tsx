@@ -210,14 +210,13 @@ export const Home = () => {
       </Box>
 
       <Solutions />
+      <ClientStories />
       <Products />
 
       {/* Add ref to Pricing component wrapper */}
       <Box ref={pricingRef}>
         <Pricing />
       </Box>
-
-      <ClientStories />
       <Support />
       <Contact />
     </>
