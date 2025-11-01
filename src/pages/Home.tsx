@@ -1,25 +1,41 @@
+import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import { Solutions } from "./Solutions";
 import { Contact } from "./Contact";
 import Products from "./Products";
 import ClientStories from "./ClientStories";
 import { Pricing } from "./Pricing";
 import Support from "./Support";
+
 import bgImage from "../assets/truck-bg.jpg";
 import run from "../assets/run.jpg";
 
 export const Home = () => {
-  const pricingRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToPricing = () => {
-    if (pricingRef.current) {
-      pricingRef.current.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const section = document.getElementById(location.state.scrollTo);
+      if (section) {
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: "smooth" });
+        }, 200);
+      }
     }
+  }, [location]);
+
+  const goToPricing = () => {
+    navigate("/pricing");
   };
 
   return (
     <>
+      {/* Hero Section */}
       <Box
         sx={{
           height: "100vh",
@@ -75,6 +91,7 @@ export const Home = () => {
             ORKANING TODAY!
           </Typography>
 
+          {/* Buttons */}
           <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
             <Button
               variant="contained"
@@ -86,7 +103,7 @@ export const Home = () => {
                 fontWeight: 600,
                 "&:hover": { backgroundColor: "#b92929" },
               }}
-              onClick={scrollToPricing}
+              onClick={goToPricing}
             >
               GET PRICING
             </Button>
@@ -114,14 +131,8 @@ export const Home = () => {
         </Box>
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          my: 4,
-          mt: 12,
-        }}
-      >
+      {/* Illustration Section */}
+      <Box sx={{ display: "flex", justifyContent: "center", my: 4, mt: 12 }}>
         <Box
           component="img"
           src={run}
@@ -133,6 +144,8 @@ export const Home = () => {
           }}
         />
       </Box>
+
+      {/* Features Section */}
       <Box
         sx={{
           textAlign: "center",
@@ -209,15 +222,19 @@ export const Home = () => {
         </Button>
       </Box>
 
-      <Solutions />
-      <ClientStories />
-      <Products />
-
-      {/* Add ref to Pricing component wrapper */}
-      {/* <Box ref={pricingRef}>
-        <Pricing />
-      </Box> */}
-      <Support />
+      {/* Other Sections */}
+      <Box id="solutions-section">
+        <Solutions />
+      </Box>
+      <Box id="stories-section">
+        <ClientStories />
+      </Box>
+      <Box id="products-section">
+        <Products />
+      </Box>
+      <Box id="support-section">
+        <Support />
+      </Box>
       <Contact />
     </>
   );

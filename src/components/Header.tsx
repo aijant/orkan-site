@@ -15,7 +15,7 @@ import {
   MenuItem,
   useMediaQuery,
 } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -29,23 +29,41 @@ export const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMobile = useMediaQuery("(max-width: 900px)");
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
-    if (!open) setSupportOpen(false); 
+    if (!open) setSupportOpen(false);
   };
 
   const handleSupportToggle = () => setSupportOpen((prev) => !prev);
-
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMenu = () => setAnchorEl(null);
 
+  // 🧭 Scroll helper for Home sections
+  const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   const navLinks = [
-    { label: "Solutions", to: "/" },
-    { label: "Products", to: "/" },
-    { label: "Pricing", to: "/" },
-    { label: "Client Stories", to: "/" },
+    { label: "Solutions", action: () => scrollToSection("solutions-section") },
+    { label: "Products", action: () => scrollToSection("products-section") },
+    { label: "Pricing", action: () => navigate("/pricing") },
+    {
+      label: "Client Stories",
+      action: () => scrollToSection("stories-section"),
+    },
+    { label: "Support", action: () => scrollToSection("support-section") },
   ];
 
   return (
@@ -65,13 +83,14 @@ export const Header = () => {
         }}
       >
         {/* Logo */}
-        <NavLink
-          to="/"
-          style={{
+        <Box
+          onClick={() => navigate("/")}
+          sx={{
             display: "flex",
             alignItems: "center",
             textDecoration: "none",
             color: "white",
+            cursor: "pointer",
           }}
         >
           <Box
@@ -82,7 +101,7 @@ export const Header = () => {
               width: 100,
               height: "auto",
               objectFit: "contain",
-              mb: '20px'
+              mb: "20px",
             }}
           />
           <Box
@@ -95,33 +114,29 @@ export const Header = () => {
           >
             Orkan ELD
           </Box>
-        </NavLink>
+        </Box>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         {!isMobile && (
           <Box>
             {navLinks.map((link) => (
               <Button
                 key={link.label}
                 color="inherit"
-                component={Link}
-                to={link.to}
                 sx={{ mx: 1 }}
+                onClick={link.action}
               >
                 {link.label}
               </Button>
             ))}
 
-            {/* Support Dropdown for Desktop */}
+            {/* Support Dropdown */}
             <Button
               color="inherit"
               endIcon={<ArrowDropDownIcon />}
               onMouseEnter={handleOpenMenu}
               onClick={handleOpenMenu}
-            >
-              Support
-            </Button>
-
+            />
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
@@ -166,7 +181,7 @@ export const Header = () => {
           </Box>
         )}
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Icon */}
         {isMobile && (
           <IconButton color="inherit" onClick={toggleDrawer(true)}>
             <MenuIcon />
@@ -207,9 +222,10 @@ export const Header = () => {
           {navLinks.map((link) => (
             <ListItem key={link.label} disablePadding>
               <ListItemButton
-                component={Link}
-                to={link.to}
-                onClick={toggleDrawer(false)}
+                onClick={() => {
+                  toggleDrawer(false)();
+                  link.action();
+                }}
                 sx={{
                   justifyContent: "center",
                   py: 2,
@@ -227,7 +243,7 @@ export const Header = () => {
             </ListItem>
           ))}
 
-          {/* Support Dropdown for Mobile */}
+          {/* Support Dropdown */}
           <ListItem disablePadding>
             <ListItemButton
               onClick={handleSupportToggle}
