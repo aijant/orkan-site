@@ -91,6 +91,7 @@ export const Header = () => {
             textDecoration: "none",
             color: "white",
             cursor: "pointer",
+          
           }}
         >
           <Box
@@ -102,6 +103,7 @@ export const Header = () => {
               height: "auto",
               objectFit: "contain",
               mb: "20px",
+              mr: '-24px'
             }}
           />
           <Box
