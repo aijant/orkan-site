@@ -84,14 +84,19 @@ export const Header = () => {
       >
         {/* Logo */}
         <Box
-          onClick={() => navigate("/")}
+          onClick={() => {
+            if (location.pathname === "/") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              navigate("/");
+            }
+          }}
           sx={{
             display: "flex",
             alignItems: "center",
             textDecoration: "none",
             color: "white",
             cursor: "pointer",
-          
           }}
         >
           <Box
@@ -103,7 +108,7 @@ export const Header = () => {
               height: "auto",
               objectFit: "contain",
               mb: "20px",
-              mr: '-24px'
+              mr: "-24px",
             }}
           />
           <Box
