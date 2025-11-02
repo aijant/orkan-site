@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Link,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   "ELD Compliance",
@@ -21,13 +22,15 @@ const products = [
 const fleetSizes = ["1–4", "5–19", "20–50", "51–99", "100+"];
 
 export const Pricing = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedFleetSize, setSelectedFleetSize] = useState<string | null>(
     null
   );
 
-  // Contact form values
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     company: "",
@@ -57,9 +60,42 @@ export const Pricing = () => {
       form,
     });
 
-    alert("Form submitted!");
+    setIsSubmitted(true);
   };
 
+  // ✅ STEP 4
+  if (isSubmitted) {
+    return (
+      <Box
+        sx={{
+          minHeight: "calc(100vh - 200px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          px: 2,
+          mt: 7,
+        }}
+      >
+        <Typography variant="h4" fontWeight={700} sx={{ mb: 2 }}>
+          🎉 Thank You!
+        </Typography>
+        <Typography variant="h6" sx={{ mb: 4 }}>
+          Thank you for submitting your contact details. <br />
+          Our team will get back to you shortly.
+        </Typography>
+
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#cf2e2e", px: 6, py: 1.5, mb: 2 }}
+          onClick={() => navigate("/")}
+        >
+          Go to Home
+        </Button>
+      </Box>
+    );
+  }
   // ✅ STEP 3 — Contact Form
   if (step === 3) {
     const isValid =
@@ -71,8 +107,16 @@ export const Pricing = () => {
       form.agree;
 
     return (
-      <Box sx={{ py: 6,mt: 7, px: { xs: 2, md: 8 }, maxWidth: "1200px", mx: "auto" }}>
-        <Typography variant="h4" fontWeight={700} textAlign="center" >
+      <Box
+        sx={{
+          py: 6,
+          mt: 7,
+          px: { xs: 2, md: 8 },
+          maxWidth: "1200px",
+          mx: "auto",
+        }}
+      >
+        <Typography variant="h4" fontWeight={700} textAlign="center">
           Tell us how we can reach you
         </Typography>
 
