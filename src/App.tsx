@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Pricing } from "./pages/Pricing";
+import {SubscriptionPlans} from './pages/SubscriptionPlans';
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Container } from "@mui/material";
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/subscription-plans" element={<SubscriptionPlans />} />
         </Routes>
       </Container>
       <Footer />

@@ -1,7 +1,13 @@
 import { Box, Typography, Button } from "@mui/material";
 import SupportImg from "../assets/support.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Support() {
+  const navigate = useNavigate();
+
+   const goToSubscriptionPlans = () => {
+     navigate("/subscription-plans");
+   };
   return (
     <>
       <Box
@@ -91,6 +97,7 @@ export default function Support() {
               color: "#fff",
             },
           }}
+          onClick={goToSubscriptionPlans}
         >
           Find out more
         </Button>
