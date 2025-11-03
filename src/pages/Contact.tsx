@@ -74,10 +74,10 @@ export const Contact = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          gap: 30,
+          gap: { xs: 4, sm: 30 },
           mb: 8,
           flexWrap: "wrap",
-          textAlign: "center",
+          textAlign: "center"
         }}
       >
         <Box>

@@ -233,7 +233,7 @@ export const SubscriptionPlans = () => {
           What is the reason for contacting us?
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 3, mb: 1 }}>
+        <Box sx={{ display: { xs: 'block', sm: 'flex' }, gap: 3, mb: 1 }}>
           <FormControlLabel
             control={
               <Checkbox
