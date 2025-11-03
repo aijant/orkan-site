@@ -6,6 +6,7 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -33,17 +34,21 @@ const schema = yup.object({
 });
 
 export const Contact = () => {
+  const [isSent, setIsSent] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ContactForm>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<ContactForm> = (data) => {
     console.log("Contact form:", data);
-    alert("Message sent!");
+    setIsSent(true);
+    reset(); 
   };
 
   return (
@@ -55,7 +60,6 @@ export const Contact = () => {
         px: { xs: 3, md: 20 },
       }}
     >
-
       <Box textAlign="center" mb={6}>
         <Typography variant="h4" fontWeight={700} gutterBottom>
           Contact Us
@@ -107,7 +111,7 @@ export const Contact = () => {
         </Box>
       </Box>
 
-      {/* Form */}
+      {/* ✅ Form */}
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -152,6 +156,7 @@ export const Contact = () => {
             />
           </Box>
         </Box>
+
         <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
           <Box sx={{ flex: 1, minWidth: "300px" }}>
             <TextField
@@ -185,6 +190,7 @@ export const Contact = () => {
             />
           </Box>
         </Box>
+
         <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
           <Box sx={{ flex: 1, minWidth: "300px" }}>
             <TextField
@@ -203,10 +209,12 @@ export const Contact = () => {
             >
               <MenuItem value="Request a demo">Request a demo</MenuItem>
               <MenuItem value="Sales inquiry">Sales inquiry</MenuItem>
-              <MenuItem value="Support">Customer support</MenuItem>
-              <MenuItem value="Support">Contact sales</MenuItem>
-              <MenuItem value="Support">Partnership inquiry</MenuItem>
-              <MenuItem value="Support">General inquiry</MenuItem>
+              <MenuItem value="Customer support">Customer support</MenuItem>
+              <MenuItem value="Contact sales">Contact sales</MenuItem>
+              <MenuItem value="Partnership inquiry">
+                Partnership inquiry
+              </MenuItem>
+              <MenuItem value="General inquiry">General inquiry</MenuItem>
             </TextField>
           </Box>
 
@@ -225,14 +233,15 @@ export const Contact = () => {
               }}
               InputLabelProps={{ style: { color: "#ccc" } }}
             >
-              <MenuItem value="1-4">1-4</MenuItem>
-              <MenuItem value="5-20">5-19</MenuItem>
-              <MenuItem value="21-50">20-50</MenuItem>
-              <MenuItem value="51+">51-99</MenuItem>
-              <MenuItem value="51+">100+</MenuItem>
+              <MenuItem value="1-4">1–4</MenuItem>
+              <MenuItem value="5-19">5–19</MenuItem>
+              <MenuItem value="20-50">20–50</MenuItem>
+              <MenuItem value="51-99">51–99</MenuItem>
+              <MenuItem value="100+">100+</MenuItem>
             </TextField>
           </Box>
         </Box>
+
         <Box sx={{ flex: 1 }}>
           <TextField
             fullWidth
@@ -250,6 +259,7 @@ export const Contact = () => {
             InputLabelProps={{ style: { color: "#ccc" } }}
           />
         </Box>
+
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             type="submit"
@@ -266,6 +276,20 @@ export const Contact = () => {
             SUBMIT
           </Button>
         </Box>
+
+        {isSent && (
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#4caf50",
+              textAlign: "center",
+              mt: 4,
+              fontWeight: 600,
+            }}
+          >
+            Thank you for your message. It has been sent.
+          </Typography>
+        )}
       </Box>
     </Box>
   );

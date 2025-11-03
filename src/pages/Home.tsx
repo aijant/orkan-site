@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { keyframes } from "@mui/system";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Solutions } from "./Solutions";
 import { Contact } from "./Contact";
@@ -14,9 +13,34 @@ import Support from "./Support";
 import bgImage from "../assets/truck-bg.jpg";
 import run from "../assets/run.jpg";
 
+const slideInFromBottom = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const slideInFromRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 export const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isVisible, setIsVisible] = useState(false);
+  const imgRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -29,13 +53,26 @@ export const Home = () => {
     }
   }, [location]);
 
-  const goToPricing = () => {
-    navigate("/pricing");
-  };
+  const goToPricing = () => navigate("/pricing");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (imgRef.current) observer.observe(imgRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
-      {/* Hero Section */}
       <Box
         sx={{
           height: "100vh",
@@ -49,6 +86,7 @@ export const Home = () => {
           justifyContent: "center",
           textAlign: "center",
           color: "#fff",
+          overflow: "hidden",
         }}
       >
         <Box
@@ -59,7 +97,17 @@ export const Home = () => {
             zIndex: 1,
           }}
         />
-        <Box sx={{ zIndex: 2, maxWidth: "900px", px: 2 }}>
+
+        <Box
+          sx={{
+            zIndex: 2,
+            maxWidth: "900px",
+            px: 2,
+            opacity: 0,
+            transform: "translateY(40px)",
+            animation: `${slideInFromBottom} 1.2s ease-out 0.2s forwards`,
+          }}
+        >
           <Typography
             variant="h3"
             component="h1"
@@ -91,7 +139,6 @@ export const Home = () => {
             ORKANING TODAY!
           </Typography>
 
-          {/* Buttons */}
           <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
             <Button
               variant="contained"
@@ -131,21 +178,34 @@ export const Home = () => {
         </Box>
       </Box>
 
-      {/* Illustration Section */}
-      <Box sx={{ display: "flex", justifyContent: "center", my: 4, mt: 12 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          my: 4,
+          mt: 12,
+          overflow: "hidden",
+        }}
+      >
         <Box
+          ref={imgRef}
           component="img"
           src={run}
           alt="Orkan run"
           sx={{
-            width: "50%",
+            width: { xs: "80%", md: "50%" },
             height: "auto",
             objectFit: "contain",
+            opacity: 0,
+            transform: "translateX(100px)",
+            animation: isVisible
+              ? `${slideInFromRight} 1.2s ease-out forwards`
+              : "none",
           }}
         />
       </Box>
 
-      {/* Features Section */}
       <Box
         sx={{
           textAlign: "center",
@@ -222,7 +282,6 @@ export const Home = () => {
         </Button>
       </Box>
 
-      {/* Other Sections */}
       <Box id="solutions-section">
         <Solutions />
       </Box>
