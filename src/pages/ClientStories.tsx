@@ -91,8 +91,6 @@ export default function ClientStories() {
             </Typography>
           </motion.div>
         </AnimatePresence>
-
-        {/* Pagination */}
         <Typography mt={4} fontSize="0.9rem" color="text.secondary">
           {index + 1} / {stories.length}
         </Typography>
