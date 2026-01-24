@@ -38,7 +38,6 @@ export default function ClientStories() {
         sx={{ width: 80, height: 3, mx: "auto", background: "#e53935", mb: 4 }}
       />
 
-      {/* Carousel */}
       <Box sx={{ position: "relative", maxWidth: 900, mx: "auto", px: 2 }}>
         <IconButton
           onClick={prev}
