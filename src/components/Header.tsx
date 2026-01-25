@@ -30,7 +30,7 @@ export const Header = () => {
   const isMobile = useMediaQuery("(max-width: 900px)");
 
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation(); // ✅ FIXED
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -45,13 +45,11 @@ export const Header = () => {
 
   // 🧭 Scroll helper for Home sections
   const scrollToSection = (sectionId: string) => {
-    if (location.pathname !== "/") {
+    if (pathname !== "/") {
       navigate("/", { state: { scrollTo: sectionId } });
     } else {
       const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
+      section?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -69,10 +67,7 @@ export const Header = () => {
   return (
     <AppBar
       position="fixed"
-      sx={{
-        backgroundColor: "#cf2e2e",
-        boxShadow: "none",
-      }}
+      sx={{ backgroundColor: "#cf2e2e", boxShadow: "none" }}
     >
       <Toolbar
         sx={{
@@ -85,7 +80,7 @@ export const Header = () => {
         {/* Logo */}
         <Box
           onClick={() => {
-            if (location.pathname === "/") {
+            if (pathname === "/") {
               window.scrollTo({ top: 0, behavior: "smooth" });
             } else {
               navigate("/");
@@ -94,7 +89,6 @@ export const Header = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            textDecoration: "none",
             color: "white",
             cursor: "pointer",
           }}
@@ -111,14 +105,7 @@ export const Header = () => {
               mr: "-24px",
             }}
           />
-          <Box
-            component="span"
-            sx={{
-              fontWeight: 700,
-              fontSize: "1.5rem",
-              ml: 1,
-            }}
-          >
+          <Box component="span" sx={{ fontWeight: 700, fontSize: "1.5rem" }}>
             Orkan ELD
           </Box>
         </Box>
@@ -137,7 +124,6 @@ export const Header = () => {
               </Button>
             ))}
 
-            {/* Support Dropdown */}
             <Button
               color="inherit"
               endIcon={<ArrowDropDownIcon />}
@@ -148,23 +134,12 @@ export const Header = () => {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleCloseMenu}
-              MenuListProps={{
-                onMouseLeave: handleCloseMenu,
-              }}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              MenuListProps={{ onMouseLeave: handleCloseMenu }}
             >
               <MenuItem
                 component="a"
                 href="/pdfs/manual-for-drivers.pdf"
                 target="_blank"
-                onClick={handleCloseMenu}
               >
                 Manual for Drivers
               </MenuItem>
@@ -172,7 +147,6 @@ export const Header = () => {
                 component="a"
                 href="/pdfs/dot-reference-card.pdf"
                 target="_blank"
-                onClick={handleCloseMenu}
               >
                 DOT Reference Card
               </MenuItem>
@@ -180,7 +154,6 @@ export const Header = () => {
                 component="a"
                 href="/pdfs/malfunction-manual.pdf"
                 target="_blank"
-                onClick={handleCloseMenu}
               >
                 Malfunction Manual
               </MenuItem>
@@ -197,118 +170,69 @@ export const Header = () => {
       </Toolbar>
 
       {/* Mobile Drawer */}
-      <Drawer
-        anchor="right"
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        PaperProps={{
-          sx: {
-            backgroundColor: "#cf2e2e",
-            color: "white",
-            width: "100%",
-            height: "100%",
-            textAlign: "center",
-          },
-        }}
-      >
-        {/* Close Button */}
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            p: 2,
+            textAlign: "center",
+            backgroundColor: "#cf2e2e",
+            height: "100%",
           }}
         >
-          <IconButton color="inherit" onClick={toggleDrawer(false)}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+            <IconButton color="inherit" onClick={toggleDrawer(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-        {/* Mobile Nav Links */}
-        <List>
-          {navLinks.map((link) => (
-            <ListItem key={link.label} disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  toggleDrawer(false)();
-                  link.action();
-                }}
-                sx={{
-                  justifyContent: "center",
-                  py: 2,
-                  "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-                }}
-              >
-                <ListItemText
-                  primary={link.label}
-                  primaryTypographyProps={{
-                    fontSize: "1.4rem",
-                    fontWeight: 500,
+          <List>
+            {navLinks.map((link) => (
+              <ListItem key={link.label} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    toggleDrawer(false)();
+                    link.action();
                   }}
-                />
+                  sx={{ justifyContent: "center" }}
+                >
+                  <ListItemText primary={link.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleSupportToggle}>
+                <ListItemText primary="Support" />
+                {supportOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </ListItemButton>
             </ListItem>
-          ))}
 
-          {/* Support Dropdown */}
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={handleSupportToggle}
-              sx={{
-                justifyContent: "center",
-                py: 2,
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-              }}
-            >
-              <ListItemText
-                primary="Support"
-                primaryTypographyProps={{
-                  fontSize: "1.4rem",
-                  fontWeight: 500,
-                }}
-              />
-              {supportOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </ListItemButton>
-          </ListItem>
-
-          <Collapse in={supportOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem disablePadding>
+            <Collapse in={supportOpen} unmountOnExit>
+              <List>
                 <ListItemButton
                   component="a"
                   href="/pdfs/manual-for-drivers.pdf"
                   target="_blank"
-                  onClick={toggleDrawer(false)}
-                  sx={{ justifyContent: "center", py: 1 }}
                 >
                   <ListItemText primary="Manual for Drivers" />
                 </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
                 <ListItemButton
                   component="a"
                   href="/pdfs/dot-reference-card.pdf"
                   target="_blank"
-                  onClick={toggleDrawer(false)}
-                  sx={{ justifyContent: "center", py: 1 }}
                 >
                   <ListItemText primary="DOT Reference Card" />
                 </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
                 <ListItemButton
                   component="a"
                   href="/pdfs/malfunction-manual.pdf"
                   target="_blank"
-                  onClick={toggleDrawer(false)}
-                  sx={{ justifyContent: "center", py: 1 }}
                 >
                   <ListItemText primary="Malfunction Manual" />
                 </ListItemButton>
-              </ListItem>
-            </List>
-          </Collapse>
-        </List>
+              </List>
+            </Collapse>
+          </List>
+        </Box>
       </Drawer>
     </AppBar>
   );

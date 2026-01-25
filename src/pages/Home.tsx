@@ -7,7 +7,7 @@ import { Solutions } from "./Solutions";
 import { Contact } from "./Contact";
 import Products from "./Products";
 import ClientStories from "./ClientStories";
-import { Pricing } from "./Pricing";
+
 import Support from "./Support";
 
 import bgImage from "../assets/truck-bg.jpg";
